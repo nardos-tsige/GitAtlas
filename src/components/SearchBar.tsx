@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { CornerDownLeft, Loader2, Search, X } from "lucide-react";
+import { CornerDownLeft, Loader2, X } from "lucide-react";
 
 interface SearchBarProps {
   defaultValue?: string;

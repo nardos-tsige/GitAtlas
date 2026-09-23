@@ -29,11 +29,6 @@ function decodeBase64(input: string): string {
   return new TextDecoder().decode(bytes);
 }
 
-interface Loaded {
-  repo: GitHubRepo | null;
-  readme: string | null;
-  readmeName: string;
-}
 
 export function RepoDetail() {
   const { owner, repo: repoName } = useParams<{ owner: string; repo: string }>();
