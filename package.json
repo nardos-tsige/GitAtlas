@@ -18,6 +18,7 @@
     "remark-gfm": "^4.0.1"
   },
   "devDependencies": {
+    "@rollup/wasm-node": "^4.63.4",
     "@tailwindcss/vite": "^4.1.13",
     "@types/react": "^19.0.7",
     "@types/react-dom": "^19.0.3",
@@ -25,5 +26,8 @@
     "tailwindcss": "^4.1.13",
     "typescript": "^5.6.3",
     "vite": "^6.0.7"
-  }
+  },
+  "overrides": {
+  "rollup": "npm:@rollup/wasm-node@^4.0.0"
+}
 }

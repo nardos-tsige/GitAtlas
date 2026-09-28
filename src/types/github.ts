@@ -26,8 +26,8 @@ export interface GitHubRepoOwner {
 }
 
 export interface GitHubLicense {
-  key: string;
-  name: string;
+  key: string;//'mit'
+  name: string;//'MIT lICENCE '
   spdx_id: string | null;
 }
 
@@ -59,7 +59,7 @@ export interface GitHubReadme {
   path: string;
   content: string;
   encoding: string;
-}
+}//repos/{owner}/{repo}/readme 
 
 export interface RateLimitInfo {
   limit: number;
