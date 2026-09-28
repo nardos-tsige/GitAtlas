@@ -32,7 +32,6 @@ export function SearchBar({
     setValue(defaultValue);
   }, [defaultValue]);
 
-  // Global "/" hotkey to focus the search input.
   useEffect(() => {
     if (!autoFocusKey) return;
 
@@ -52,7 +51,6 @@ export function SearchBar({
     return () => window.removeEventListener("keydown", onKeyDown);
   }, [autoFocusKey]);
 
-  // Close the dropdown when clicking outside.
   useEffect(() => {
     function onClick(e: MouseEvent) {
       if (!containerRef.current?.contains(e.target as Node)) {
@@ -63,7 +61,6 @@ export function SearchBar({
     return () => document.removeEventListener("mousedown", onClick);
   }, []);
 
-  // Reset highlight whenever the result list changes.
   useEffect(() => {
     setHighlight(-1);
   }, [results]);
@@ -102,7 +99,7 @@ export function SearchBar({
 
   return (
     <form onSubmit={handleSubmit} className="relative w-full max-w-2xl mx-auto">
-      <div ref={containerRef}>
+      <div ref={containerRef} className="relative">
         <div className="flex items-center rounded-xl border border-[var(--border)] bg-[var(--card-bg)] focus-within:border-[var(--text-primary)] transition-colors overflow-hidden">
           <span className="pl-4 pr-1 text-[var(--text-dim)] font-bold select-none">
             &gt;
@@ -159,7 +156,7 @@ export function SearchBar({
         </div>
 
         {open && results.length > 0 && (
-          <ul className="absolute left-0 right-0 mt-2 z-30 rounded-xl border border-[var(--border)] bg-[var(--card-bg)] backdrop-blur-md overflow-hidden shadow-xl">
+          <ul className="absolute left-0 right-0 top-full mt-2 z-[100] rounded-xl border border-[var(--border)] bg-[var(--card-bg)] backdrop-blur-md overflow-hidden shadow-xl">
             {results.map((user, i) => (
               <li key={user.id}>
                 <button
