@@ -34,10 +34,11 @@ export function SearchHistory({
       </div>
 
       <div className="flex flex-wrap gap-2">
-        {items.map((item) => (
+        {items.map((item, i) => (
           <div
             key={item.username}
-            className="group flex items-center rounded-lg border border-[var(--border)] bg-[var(--card-bg)] hover:border-[var(--text-primary)] transition-colors overflow-hidden text-xs"
+            className="group flex items-center rounded-lg border border-[var(--border)] bg-[var(--card-bg)] hover:border-[var(--text-primary)] transition-colors overflow-hidden text-xs animate-fade-up"
+            style={{ animationDelay: `${1260 + i * 30}ms` }}
           >
             <button
               type="button"
