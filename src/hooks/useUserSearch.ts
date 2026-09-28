@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { fetchGitHub } from "../utils/githubApi";
 
 export interface SearchUser {
@@ -13,18 +13,25 @@ interface SearchResponse {
 }
 
 const cache = new Map<string, SearchUser[]>();
-const MAX_CACHE = 30;
+const MAX_CACHE = 40;
 
-function delayFor(query: string): number {
-  if (query.length <= 3) return 120;
-  if (query.length <= 6) return 200;
-  return 300;
+function findInCache(query: string): SearchUser[] | null {
+  const direct = cache.get(query);
+  if (direct) return direct;
+
+  for (const [key, value] of cache) {
+    if (key.length > query.length && key.startsWith(query)) {
+      return value.filter((u) =>
+        u.login.toLowerCase().startsWith(query.toLowerCase())
+      );
+    }
+  }
+  return null;
 }
 
 export function useUserSearch(query: string) {
   const [results, setResults] = useState<SearchUser[]>([]);
   const [loading, setLoading] = useState(false);
-  const latest = useRef("");
 
   useEffect(() => {
     const trimmed = query.trim();
@@ -35,43 +42,43 @@ export function useUserSearch(query: string) {
       return;
     }
 
-    const cached = cache.get(trimmed);
+    const cached = findInCache(trimmed);
     if (cached) {
       setResults(cached);
       setLoading(false);
       return;
     }
 
-    setLoading(true);
-    latest.current = trimmed;
     let cancelled = false;
+    setLoading(true);
 
-    const timer = setTimeout(async () => {
+    (async () => {
       try {
         const data = await fetchGitHub<SearchResponse>(
-          `/search/users?q=${encodeURIComponent(trimmed)}&per_page=6`
+          `/search/users?q=${encodeURIComponent(trimmed)}&per_page=8`
         );
         const items = data.items ?? [];
 
-        if (latest.current === trimmed) {
-          cache.set(trimmed, items);
-          if (cache.size > MAX_CACHE) {
-            const oldest = cache.keys().next().value;
-            if (oldest) cache.delete(oldest);
-          }
+        cache.set(trimmed, items);
+        if (cache.size > MAX_CACHE) {
+          const oldest = cache.keys().next().value;
+          if (oldest) cache.delete(oldest);
         }
 
-        if (!cancelled) setResults(items);
+        if (!cancelled) {
+          setResults(items);
+          setLoading(false);
+        }
       } catch {
-        if (!cancelled) setResults([]);
-      } finally {
-        if (!cancelled) setLoading(false);
+        if (!cancelled) {
+          setResults([]);
+          setLoading(false);
+        }
       }
-    }, delayFor(trimmed));
+    })();
 
     return () => {
       cancelled = true;
-      clearTimeout(timer);
     };
   }, [query]);
 
