@@ -12,7 +12,7 @@
     --code-bg: #f0f0f0;
     --card-bg: rgba(255, 255, 255, 0.94);
     --header-bg: rgba(255, 255, 255, 0.82);
-    --dot-color: rgba(0, 0, 0, 0.12);
+    --grid-line: rgba(0, 0, 0, 0.045);
   }
 
   [data-theme="dark"] {
@@ -26,7 +26,7 @@
     --code-bg: #111111;
     --card-bg: rgba(10, 10, 10, 0.94);
     --header-bg: rgba(0, 0, 0, 0.82);
-    --dot-color: rgba(255, 255, 255, 0.12);
+    --grid-line: rgba(255, 255, 255, 0.045);
   }
 
   * {
@@ -49,11 +49,13 @@
   position: fixed;
   inset: 0;
   pointer-events: none;
-  background-image: radial-gradient(var(--dot-color) 1px, transparent 1px);
-  background-size: 22px 22px;
-  mask-image: radial-gradient(ellipse at center, black 40%, transparent 100%);
-  -webkit-mask-image: radial-gradient(ellipse at center, black 40%, transparent 100%);
   z-index: 0;
+  background-image:
+    linear-gradient(var(--grid-line) 1px, transparent 1px),
+    linear-gradient(90deg, var(--grid-line) 1px, transparent 1px);
+  background-size: 32px 32px;
+  mask-image: radial-gradient(ellipse at center, black 30%, transparent 92%);
+  -webkit-mask-image: radial-gradient(ellipse at center, black 30%, transparent 92%);
 }
 
 @keyframes cursor-blink {
