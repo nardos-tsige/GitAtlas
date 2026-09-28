@@ -45,7 +45,7 @@ export function SearchPage() {
       </div>
 
       <div
-        className="space-y-4 animate-fade-up"
+        className="relative z-20 space-y-4 animate-fade-up"
         style={{ animationDelay: "1200ms" }}
       >
         <SearchBar onSearch={search} />
@@ -58,7 +58,7 @@ export function SearchPage() {
       </div>
 
       <section
-        className="pt-6 border-t border-[var(--border)] space-y-3 animate-fade-up"
+        className="relative z-10 pt-6 border-t border-[var(--border)] space-y-3 animate-fade-up"
         style={{ animationDelay: "1300ms" }}
       >
         <h2 className="text-xs uppercase tracking-wide text-[var(--text-dim)]">
